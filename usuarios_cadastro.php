@@ -1,12 +1,19 @@
 <?php
-include 'usuarios_controller.php';
+session_start(); // Inicia a sessão
 
+include 'usuarios_controller.php';
 include 'header.php'; 
 
-//Pega todos os usuários para preencher os dados da tabela
+// Verifica se o usuário está logado
+if (!isset($_SESSION['email'])) { // Alterado para verificar se o email do usuário está na sessão
+    echo "<script>alert('Por favor, faça login para acessar esta página.'); window.location.href = 'index.php';</script>";
+    exit();
+}
+
+// Pega todos os usuários para preencher os dados da tabela
 $users = getUsers();
 
-//Variável que guarda o ID do usuário que será editado
+// Variável que guarda o ID do usuário que será editado
 $userToEdit = null;
 
 // Verifica se existe o parâmetro edit pelo método GET
